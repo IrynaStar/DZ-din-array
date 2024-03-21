@@ -1,0 +1,118 @@
+1.	
+#include <iostream>
+using namespace std;
+
+int main() {
+	int x = 10;  // переменная типа инт
+	int* px = &x; // указатель на нее
+	int** ppx = &px; // указатель на указатель
+	int*** p_x = &ppx;
+	int**** pp_x = &p_x;
+	int***** pp_xx = &pp_x;
+
+	setlocale(0, "");
+	cout << "Адрес переменной х: " << & x << "\n";    
+	cout << "Адрес указателя 1*: " << &px << "\n";    
+	cout << "Адрес указателя 2*: " << &ppx << "\n";  
+	cout << "Адрес указателя 3*: " << &p_x << "\n";  
+	cout << "Адрес указателя 4*: " << &pp_x << "\n"; 
+	cout << "Адрес указателя 5*: " << &pp_xx << "\n\n";
+
+	cout << "Адреса всех элементов цепочки с помощью только 5* указателя: \n";
+	cout << "Адрес переменной х: " << ****pp_xx << "\n"; // адрес переменной x
+	cout << "Адрес указателя 1*: " << ***pp_xx << "\n";  // адрес указателя 1* (px)
+	cout << "Адрес указателя 2*: " << **pp_xx << "\n";   // адрес указателя 2* (ppx)
+	cout << "Адрес указателя 3*: " << *pp_xx << "\n";    // адрес указателя 3* (p_x)
+	cout << "Адрес указателя 4*: " << pp_xx << "\n";     // адрес указателя 4* (pp_x)
+	cout << "Адрес указателя 5*: " << &pp_xx << "\n";    // адрес указателя 5*
+}
+
+2.1 
+#include <iostream>
+using namespace std;
+
+void EddLastElement(int** ar, int* count, int d) {
+	int size = *count;
+
+	// если массив пустой, то удалять нечего
+	if (size <= 0) return;
+
+	if (*ar != nullptr) {
+
+		int* temp = new int[size + 1];
+
+		// копируем со старого массива в новый все элементы, кроме последнего
+		for (int i = 0; i < size; ++i)
+			temp[i] = (*ar)[i];
+
+		delete[](*ar);
+		*ar = temp;
+
+		*count = size;
+		//cout << d;
+	}
+}
+
+int main() {
+	int size = 5;
+	int* ar = new int[size];
+	for (size_t i = 0; i < size; i++)
+	{
+		ar[i] = rand() % 100;
+		cout << ar[i] << ", ";
+	}
+
+	int d = 78;
+	int* cc = &d;
+	EddLastElement(&ar, &size, *cc);
+
+	cout << "\n\n";
+	for (size_t i = 0; i < size; i++)
+	{
+		cout << ar[i] << ", ";
+
+	}
+	cout << *cc;
+}
+2.2  
+#include <iostream>
+using namespace std;
+
+void DeleteLastElement(int** ar, int* count) {
+	int size = *count;
+
+	// если массив пустой, то удалять нечего
+	if (size <= 0) return;
+
+	if (*ar != nullptr) {
+
+		int* temp = new int[size - 1];
+
+		// копируем со старого массива в новый все элементы, кроме последнего
+		for (int i = 0; i < size - 1; ++i)
+			temp[i] = (*ar)[i];
+
+		delete[](*ar);
+		*ar = temp;
+
+		*count = size - 1;
+	}
+}
+
+int main() {
+	int size = 5;
+	int* ar = new int[size];
+	for (size_t i = 0; i < size; i++)
+	{
+		ar[i] = rand() % 100;
+		cout << ar[i] << ", ";
+	}
+
+	DeleteLastElement(&ar, &size);
+
+	cout << "\n\n";
+	for (size_t i = 0; i < size; i++)
+	{
+		cout << ar[i] << ", ";
+	}
+}
